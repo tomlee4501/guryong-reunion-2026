@@ -55,12 +55,14 @@ test('Apps Script setup binds current private sheet instead of making a second w
   assert.match(code,/setProperty\('SHEET_ID',book\.getId\(\)\)/);
 });
 
-test('RSVP stays disabled until corrected Apps Script is deployed and verified',()=>{
+test('RSVP endpoint is configured after successful leading-zero integration check',()=>{
   const workflow=read('.github/workflows/deploy.yml');
   const script=read('apps-script/Code.gs');
-  assert.match(workflow,/VITE_RSVP_ENDPOINT: ''/);
-  assert.match(workflow,/VITE_RSVP_ENDPOINT: ''/); // Public form stays disabled through one-time live verification.
+  const registration=read('src/lib/registration.ts');
+  assert.match(workflow,/VITE_RSVP_ENDPOINT: https:\/\/script\.google\.com\/macros\/s\/AKfycb/);
+  assert.doesNotMatch(workflow,/--post-test/);
   assert.match(script,/"'"\+phone/);
+  assert.match(registration,/registrationEnabled/);
 });
 
 test('Confirmed venue opens exact Naver Place without changing event date or payment',()=>{
