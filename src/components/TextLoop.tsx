@@ -1,29 +1,55 @@
 import { useEffect, useState } from 'react';
+import ReactBitsTextLoop from './reactbits/TextLoop';
 import { LOOP_LINES } from '../lib/constants';
 
+/**
+ * Genuine React Bits SVG-path ribbon marquee; unlike the previous text swap,
+ * the whole message continuously moves along a curved wave.
+ * Source: https://reactbits.dev/text-animations/text-loop
+ */
 export default function TextLoop() {
-  const [active,setActive]=useState(0);
-  const [reduced,setReduced]=useState(false);
-  useEffect(()=>{
-    const media=window.matchMedia('(prefers-reduced-motion: reduce)');
-    const update=()=>setReduced(media.matches); update();
-    media.addEventListener('change',update);
-    return ()=>media.removeEventListener('change',update);
-  },[]);
-  useEffect(()=>{
-    if(reduced) return;
-    const timer=window.setInterval(()=>{if(!document.hidden) setActive(i=>(i+1)%LOOP_LINES.length)},3200);
-    return ()=>window.clearInterval(timer);
-  },[reduced]);
-  return <section className="loop-section" aria-label="동창회 주요 정보">
-    <div className="container loop-inner">
-      <span className="kicker">EVENT INFORMATION / 2026</span>
-      <div className="loop-motion" aria-live="off"><div className="loop-current" key={active}>{LOOP_LINES[active]}</div></div>
-      <div className="loop-pagination" role="group" aria-label="행사 정보 선택">
-        {LOOP_LINES.map((text,i)=><button className={'loop-dot'+(active===i?' active':'')} type="button"
-          key={text} aria-label={text+' 보기'} aria-pressed={active===i} onClick={()=>setActive(i)} />)}
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const sync = () => setReducedMotion(query.matches);
+    sync();
+    query.addEventListener('change', sync);
+    return () => query.removeEventListener('change', sync);
+  }, []);
+
+  return (
+    <section className="loop-section" aria-label="구룡중학교 동창회와 행사 일시">
+      <div className="loop-ribbon-stage">
+        {reducedMotion ? (
+          <div className="loop-ribbon-fallback">
+            {LOOP_LINES[0]} <span aria-hidden="true">✦</span> {LOOP_LINES[1]}
+          </div>
+        ) : (
+          <ReactBitsTextLoop
+            text={LOOP_LINES.join('  ✦  ')}
+            shape="wave"
+            direction="forward"
+            speed={70}
+            separator="✦"
+            curviness={86}
+            fontSize={50}
+            fontWeight={800}
+            letterSpacing={0}
+            uppercase={false}
+            ribbon
+            ribbonColor="#DFFF7A"
+            ribbonWidth={103}
+            color="#15171E"
+            edgeFade={0.09}
+            pauseOnHover
+            cross={false}
+            draggable={false}
+            scrollBoost={0}
+          />
+        )}
       </div>
-      <span className="sr-only">{LOOP_LINES.join('. ')}</span>
-    </div>
-  </section>;
+      <span className="sr-only">{LOOP_LINES.join(' · ')}</span>
+    </section>
+  );
 }

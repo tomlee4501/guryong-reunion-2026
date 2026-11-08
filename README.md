@@ -18,7 +18,7 @@ npm test
 npm run build
 ```
 
-React Bits Pixel Snow는 `scripts/install-react-bits.mjs`로 [공식 React Bits 저장소](https://github.com/DavidHDev/react-bits)의 고정된 커밋에서 설치합니다. GitHub Actions는 배포 빌드 전에 해당 설치를 실행합니다. 로컬 백업 컴포넌트는 공식 컴포넌트가 설치되지 않았을 때를 위한 것이며, React Bits 라이선스(MIT + Commons Clause)를 준수해야 합니다. 행사 기본정보가 한 문장씩 순서대로 바뀌는 Text Loop는 Figma 시안에 맞춘 자체 전환 컴포넌트입니다. React Bits의 SVG path marquee인 동명 컴포넌트와는 동작 방식이 다릅니다.
+React Bits Pixel Snow는 `scripts/install-react-bits.mjs`로 [공식 React Bits 저장소](https://github.com/DavidHDev/react-bits)의 고정된 커밋에서 설치합니다. GitHub Actions는 배포 빌드 전에 해당 설치를 실행합니다. 로컬 백업 컴포넌트는 공식 컴포넌트가 설치되지 않았을 때를 위한 것이며, React Bits 라이선스(MIT + Commons Clause)를 준수해야 합니다. Text Loop는 React Bits의 공식 SVG 곡선 리본 마키 컴포넌트를 `src/components/reactbits/TextLoop.tsx`에 고정 커밋 `4dc7b5b` 기준으로 포함한 것이며, `src/components/TextLoop.tsx`는 행사 정보 및 사이트 팔레트를 적용합니다. 문구는 ‘구룡중학교 동창회’와 ‘2026년 12월 26일 오후 6시’ 두 개만 계속 반복합니다. 모션 축소 설정에서는 정적 행사 정보를 표시합니다.
 
 ## GitHub Pages 배포
 
@@ -47,3 +47,10 @@ npm test
 ```
 
 정적 설정 및 Apps Script 데이터 검증 테스트 3개 포함. GitHub Actions에서 빌드·테스트 자동 검증. 개인 정보 및 시트 ID/접근 토큰을 Git에 저장하지 않습니다.
+
+## React Bits Text Loop 구현
+
+- 출처: https://reactbits.dev/text-animations/text-loop
+- 원본: `DavidHDev/react-bits` / `src/ts-default/TextAnimations/TextLoop` @ `4dc7b5b` (원본 컴포넌트와 CSS)
+- 효과: wave shape + #DFFF7A lime ribbon + #15171E text / 행사정보 2개를 연속 마키
+- 원래의 문장 전환/페이지네이션 UI는 제거하였습니다.
