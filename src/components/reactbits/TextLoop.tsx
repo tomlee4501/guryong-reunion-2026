@@ -19,6 +19,8 @@ export interface TextLoopProps {
   tilt?: number;
   fontSize?: number;
   fontWeight?: number | string;
+  /** Additional normal offset for text glyphs along the SVG path (in SVG units). */
+  textBaselineOffset?: number;
   letterSpacing?: number;
   uppercase?: boolean;
   color?: string;
@@ -164,6 +166,7 @@ const TextLoop = ({
   tilt = 0,
   fontSize = 46,
   fontWeight = 800,
+  textBaselineOffset = 0,
   letterSpacing = 2,
   uppercase = true,
   color,
@@ -645,7 +648,7 @@ const TextLoop = ({
               lengthAdjust="spacing"
             >
               <textPath ref={headRef} href={`#${pathId}`} startOffset={0}>
-                {loopText}
+                <tspan dy={textBaselineOffset}>{loopText}</tspan>
               </textPath>
             </text>
 
@@ -659,7 +662,7 @@ const TextLoop = ({
               lengthAdjust="spacing"
             >
               <textPath ref={tailRef} href={`#${pathId}`} startOffset={0}>
-                {loopText}
+                <tspan dy={textBaselineOffset}>{loopText}</tspan>
               </textPath>
             </text>
           </g>

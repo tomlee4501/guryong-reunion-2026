@@ -37,3 +37,13 @@ test('React Bits ribbon fits the section and preserves global Pixel Snow',()=>{
   assert.match(loop,/fontSize=\{32\}/);
   assert.match(loop,/text=\{LOOP_LINES\.join/);
 });
+
+test('Mobile ribbon adjusts glyph baseline, not the ribbon or desktop canvas',()=>{
+  const vendor=read('src/components/reactbits/TextLoop.tsx');
+  const wrapper=read('src/components/TextLoop.tsx');
+  assert.match(vendor,/textBaselineOffset\?: number/);
+  assert.match(vendor,/<tspan dy=\{textBaselineOffset\}>\{loopText\}<\/tspan>/);
+  assert.match(wrapper,/textBaselineOffset=\{isMobile \? 11 : 0\}/);
+  assert.match(wrapper,/max-width: 760px/);
+  assert.match(wrapper,/shape="wave"/);
+});

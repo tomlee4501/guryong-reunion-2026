@@ -9,10 +9,21 @@ import { LOOP_LINES } from '../lib/constants';
  */
 export default function TextLoop() {
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 760px)').matches
+  );
 
   useEffect(() => {
     const query = window.matchMedia('(prefers-reduced-motion: reduce)');
     const sync = () => setReducedMotion(query.matches);
+    sync();
+    query.addEventListener('change', sync);
+    return () => query.removeEventListener('change', sync);
+  }, []);
+
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 760px)');
+    const sync = () => setIsMobile(query.matches);
     sync();
     query.addEventListener('change', sync);
     return () => query.removeEventListener('change', sync);
@@ -35,6 +46,7 @@ export default function TextLoop() {
             curviness={24}
             fontSize={32}
             fontWeight={800}
+            textBaselineOffset={isMobile ? 11 : 0}
             letterSpacing={0}
             uppercase={false}
             ribbon
