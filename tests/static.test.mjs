@@ -47,3 +47,10 @@ test('Mobile ribbon adjusts glyph baseline, not the ribbon or desktop canvas',()
   assert.match(wrapper,/max-width: 760px/);
   assert.match(wrapper,/shape="wave"/);
 });
+
+test('Apps Script setup binds current private sheet instead of making a second workbook',()=>{
+  const code=read('apps-script/Code.gs');
+  assert.match(code,/SpreadsheetApp\.getActiveSpreadsheet\(\)/);
+  assert.doesNotMatch(code,/SpreadsheetApp\.create\(/);
+  assert.match(code,/setProperty\('SHEET_ID',book\.getId\(\)\)/);
+});

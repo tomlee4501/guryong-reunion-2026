@@ -1,6 +1,6 @@
 /**
  * 2026 구룡중 동창회 — private Google Sheets RSVP backend.
- * Execute setup() in a dedicated organizer-owned Google Apps Script account.
+ * Open the dedicated private attendance spreadsheet > Extensions > Apps Script, then run setup().
  * Then Deploy > Web app > Execute as me > Who has access: Anyone.
  * This publicly accessible endpoint requires spam/abuse monitoring.
  */
@@ -11,30 +11,22 @@ var ZONE='Asia/Seoul';
 var DELETE_AFTER='2027-01-25T18:00:00+09:00';
 
 function setup(){
-  var props=PropertiesService.getScriptProperties();
-  var existingId=props.getProperty('SHEET_ID');
-  var book=existingId?SpreadsheetApp.openById(existingId):SpreadsheetApp.create('2026 구룡중 동창회 참석자 관리');
-  if(!existingId) props.setProperty('SHEET_ID',book.getId());
-  var sheet=book.getSheetByName(SHEET_NAME)||book.insertSheet(SHEET_NAME);
-  sheet.getRange(1,1,1,HEADERS.length).setValues([HEADERS]);
-  sheet.setFrozenRows(1);
-  sheet.getRange('A1:F1').setBackground('#17188f').setFontColor('#ffffff').setFontWeight('bold');
-  sheet.setColumnWidth(1,175);sheet.setColumnWidth(2,135);sheet.setColumnWidth(3,145);sheet.setColumnWidth(4,155);sheet.setColumnWidth(5,220);
-  sheet.getRange('C2:C10000').setNumberFormat('@');
-  sheet.getRange('D2:D10000').setDataValidation(SpreadsheetApp.newDataValidation().requireValueInList(['Y','N'],true).setAllowInvalid(false).build());
-  sheet.hideColumns(6);
-  var dashboard=book.getSheetByName(DASHBOARD_NAME)||book.insertSheet(DASHBOARD_NAME);
-  dashboard.getRange('A1:B5').setValues([
-    ['구룡중학교 동창회 / 회비 관리',''],
-    ['신청자 수',"=COUNTA('참석자'!B2:B)"],
-    ['입금 완료(Y)',"=COUNTIF('참석자'!D2:D,\"Y\")"],
-    ['미입금(N)',"=COUNTIF('참석자'!D2:D,\"N\")"],
-    ['입금 총액 (원)','=B3*50000']
-  ]);
-  dashboard.getRange('A1:B1').setBackground('#17188f').setFontColor('#ffffff').setFontWeight('bold');
-  dashboard.setColumnWidth(1,240);dashboard.setColumnWidth(2,190);
+  // IMPORTANT: Open this script via the private attendance spreadsheet's
+  // Extensions > Apps Script menu. Never create a second spreadsheet.
+  var book=SpreadsheetApp.getActiveSpreadsheet();
+  if(!book)throw Error('Google Sheets > 확장 프로그램 > Apps Script에서 실행해 주세요.');
+  var sheet=book.getSheetByName(SHEET_NAME);
+  var dashboard=book.getSheetByName(DASHBOARD_NAME);
+  if(!sheet||!dashboard)throw Error('참석자 및 운영 요약 탭을 확인해 주세요.');
+  var headers=sheet.getRange(1,1,1,HEADERS.length).getDisplayValues()[0];
+  if(headers[0]!==HEADERS[0]||headers[1]!==HEADERS[1]||headers[2]!==HEADERS[2]
+    ||headers[3]!==HEADERS[3]||headers[4]!==HEADERS[4]
+    ||headers[5]!=='요청 ID (자동)'){
+      throw Error('시트 열 이름이 일치하지 않습니다. 원본 Google Sheets 구조를 유지해 주세요.');
+  }
+  PropertiesService.getScriptProperties().setProperty('SHEET_ID',book.getId());
   installCleanupTrigger_();
-  Logger.log('운영진용 스프레드시트: '+book.getUrl());
+  Logger.log('연결된 비공개 참석자 시트: '+book.getUrl());
   return book.getUrl();
 }
 function doPost(e){

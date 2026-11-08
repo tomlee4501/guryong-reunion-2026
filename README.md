@@ -26,19 +26,23 @@ React Bits Pixel Snow는 `scripts/install-react-bits.mjs`로 [공식 React Bits 
 2. Actions 탭의 **Deploy Guryong Reunion to GitHub Pages**가 완료될 때까지 기다리고 결과를 확인합니다.
 3. 페이지가 뜨는지, 모바일 레이아웃과 Pixel Snow가 정상인지 확인합니다.
 
-## Google Sheets 신청 접수 (아직 미연결)
+## Google Sheets 신청 접수 (현재 비활성화)
 
-**신청 버튼은 Google Apps Script API 설정 전까지 비활성화됩니다.** 실제 동창생 이름/연락처는 절대로 GitHub에 올리지 마세요.
+**보안:** 실제 이름과 연락처는 GitHub에 올리지 않습니다. Google Sheets 파일은 비공개로 유지하고, 운영진 이메일에만 편집 권한을 부여합니다.
 
-1. 동창회 담당자의 Google 계정에서 새 Google Apps Script 프로젝트를 만들고 `apps-script/Code.gs`를 붙여넣습니다.
-2. `setup()`을 한 번 실행하고 인증하면, 비공개 Google Sheets를 생성합니다. 실행 로그에 시트 주소가 나옵니다.
-3. 앱 스크립트를 Web app으로 배포합니다 (실행: Me, 접근: Anyone).
-4. GitHub repo **Settings → Secrets and variables → Actions → Variables**에 `VITE_RSVP_ENDPOINT`를 웹앱 /exec URL로 등록합니다. 이 변수는 브라우저에 공개되므로 비밀 토큰은 넣지 않습니다.
-5. Actions workflow를 수동으로 재실행한 뒤 테스트 신청이 비공개 시트에 들어가는지 확인합니다.
+이미 전용 Google Sheets 파일을 생성했습니다. Google 계정에서 해당 **비공개 시트**를 열어 다음과 같이 진행합니다.
 
-시트의 열: 신청일시 / 이름 / 연락처 / **회비 납부(Y/N)** / 메모 / 요청 ID(숨김). 새 신청은 기본 N이며, 친구가 Y로 바꾸면 운영 요약 탭의 입금자 수와 입금 총액에 반영됩니다. 중복 연락처와 중복 요청 ID를 거부합니다. 자동 보유기간 종료 트리거: 2027-01-25.
+1. Google Sheets 메뉴 **확장 프로그램 → Apps Script**를 클릭합니다. **새 독립 Apps Script 프로젝트가 아니라 이 시트에 연결된 프로젝트**여야 합니다.
+2. `apps-script/Code.gs` 전체를 기존 `Code.gs`에 붙여넣고 저장합니다.
+3. 상단 함수 목록에서 `setup`을 선택하고 **실행** → Google 권한 승인. 기존 시트 2개를 검증하며 **새 시트를 생성하지 않습니다**.
+4. **배포 → 새 배포 → 유형: 웹 앱**을 선택하고 '실행 사용자: 나', '액세스 권한: 모든 사용자'로 설정하여 배포합니다.
+5. 배포된 `https://script.google.com/macros/s/.../exec` 주소를 복사합니다. GitHub 저장소의 **Settings → Secrets and variables → Actions → Variables**에서 `VITE_RSVP_ENDPOINT` 값을 설정합니다. 이 변수는 공개 브라우저에 노출되므로 비밀 토큰이 아닙니다.
+6. GitHub **Actions → Deploy Guryong Reunion to GitHub Pages → Run workflow**를 실행합니다.
+7. 사이트에서 **가상의 시험 신청 1건**을 전송하고 비공개 시트에서 정확히 1행 추가 및 회비 'N', 관리 요약 1명 계산을 검증한 뒤 테스트 행을 삭제합니다. 실운영 전 정상 동작을 꼭 확인합니다.
 
-**주의:** GitHub Pages의 브라우저에서 Apps Script에 `no-cors`로 보내면 응답 성공 여부를 알 수 없습니다. 따라서 사이트에서는 제출 성공을 단정하지 않고 '정보가 전송되었습니다. 운영진 확인 전 접수 확정 아님'이라고 안내합니다. 실서비스 접수 전에는 실제 구글 시트 저장 검증, 스팸/남용 방지, 운영진의 개인정보 동의 및 삭제 정책 확인이 필요합니다. 신뢰 가능한 접수 상태 확인이 필요하다면 별도 무료 서버리스 API를 권장합니다.
+관리 시트 구성: `참석자` 탭의 신청일시 / 이름 / 연락처 / 회비 납부(Y/N) / 메모 / 숨겨진 요청 ID, `운영 요약` 탭의 신청 인원 · 입금 인원 · 미입금 인원 · 입금 총액 · 납부율. Apps Script는 새 행의 회비를 기본 N으로 기록합니다.
+
+브라우저에서 Apps Script로 `mode: no-cors` 요청을 보내기 때문에 프런트엔드는 응답 본문을 확인할 수 없습니다. 따라서 웹사이트의 전송 완료 메시지는 **서버의 시트 저장 보증이 아닙니다**. 시트에서 실제 저장을 검증하기 전에는 실접수를 시작하지 마세요. 공개 Apps Script URL은 봇/스팸 대상이 될 수 있으므로 소규모 초대 대상자에게만 링크를 배포하고 시트 접근권한을 제한하세요. Apps Script의 `purgeAttendeeData` 트리거는 행사 30일 후 개인 정보를 자동 삭제하도록 설계되었습니다.
 
 ## 테스트
 
