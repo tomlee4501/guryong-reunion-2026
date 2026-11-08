@@ -26,7 +26,7 @@ React Bits Pixel Snow는 `scripts/install-react-bits.mjs`로 [공식 React Bits 
 2. Actions 탭의 **Deploy Guryong Reunion to GitHub Pages**가 완료될 때까지 기다리고 결과를 확인합니다.
 3. 페이지가 뜨는지, 모바일 레이아웃과 Pixel Snow가 정상인지 확인합니다.
 
-## Google Sheets 신청 접수 (현재 비활성화)
+## Google Sheets 신청 접수 (웹 앱 연결 검사 중)
 
 **보안:** 실제 이름과 연락처는 GitHub에 올리지 않습니다. Google Sheets 파일은 비공개로 유지하고, 운영진 이메일에만 편집 권한을 부여합니다.
 
@@ -58,3 +58,5 @@ npm test
 - 원본: `DavidHDev/react-bits` / `src/ts-default/TextAnimations/TextLoop` @ `4dc7b5b` (원본 컴포넌트와 CSS)
 - 효과: wave shape + #DFFF7A lime ribbon + #15171E text / 행사정보 2개를 연속 마키
 - 원래의 문장 전환/페이지네이션 UI는 제거하였습니다.
+
+Google Apps Script 웹앱 주소는 공개 신청 API이며 GitHub Pages 정적 번들에 포함됩니다. 비밀키는 넣지 않습니다. 허가 없는 대량 등록이나 테스트 요청은 금지되며, 연동 테스트용 가상 신청 행은 확인 후 삭제합니다.

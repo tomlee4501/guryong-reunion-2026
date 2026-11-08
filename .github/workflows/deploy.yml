@@ -27,10 +27,14 @@ jobs:
         run: npm run setup:reactbits
       - name: Run tests
         run: npm test
+      - name: Verify Google Apps Script and perform one synthetic RSVP
+        env:
+          VITE_RSVP_ENDPOINT: https://script.google.com/macros/s/AKfycbxr7kxil-xBDevdJXHGSiFC9fXLMP-m3uB09PbuFBkxhaUuQJbGywyWtC5dqafGMCyL/exec
+        run: node scripts/verify-apps-script.mjs --post-test
       - name: Build
         run: GITHUB_PAGES=true npm run build
         env:
-          VITE_RSVP_ENDPOINT: ${{ vars.VITE_RSVP_ENDPOINT }}
+          VITE_RSVP_ENDPOINT: https://script.google.com/macros/s/AKfycbxr7kxil-xBDevdJXHGSiFC9fXLMP-m3uB09PbuFBkxhaUuQJbGywyWtC5dqafGMCyL/exec
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
