@@ -21,7 +21,7 @@ test('Apps Script validation, duplicate suppression and default N',()=>{
   runInNewContext(read('apps-script/Code.gs'),ctx);
   const post=b=>JSON.parse(ctx.doPost({postData:{contents:JSON.stringify(b)}}));
   const base={source:'guryong-reunion-2026',name:'홍길동',phone:'01012345678',consent:true,requestId:'a7a7a7a7-9999-4999-8999-a7a7a7a7a7a7',honeypot:''};
-  assert.equal(post(base).saved,true);assert.equal(data[1][3],'N');assert.equal(data.length,2);
+  assert.equal(post(base).saved,true);assert.equal(data[1][3],'N');assert.equal(data[1][2],"'01012345678");assert.equal(data.length,2);
   assert.equal(post({...base,requestId:'b7a7a7a7-9999-4999-8999-a7a7a7a7a7a7'}).duplicate,true);assert.equal(data.length,2);
   assert.equal(post({...base,name:'=IMPORTXML("evil")',phone:'01099887766'}).ok,false);
 });
@@ -53,4 +53,12 @@ test('Apps Script setup binds current private sheet instead of making a second w
   assert.match(code,/SpreadsheetApp\.getActiveSpreadsheet\(\)/);
   assert.doesNotMatch(code,/SpreadsheetApp\.create\(/);
   assert.match(code,/setProperty\('SHEET_ID',book\.getId\(\)\)/);
+});
+
+test('RSVP stays disabled until corrected Apps Script is deployed and verified',()=>{
+  const workflow=read('.github/workflows/deploy.yml');
+  const script=read('apps-script/Code.gs');
+  assert.match(workflow,/VITE_RSVP_ENDPOINT: ''/);
+  assert.doesNotMatch(workflow,/--post-test/);
+  assert.match(script,/"'"\+phone/);
 });

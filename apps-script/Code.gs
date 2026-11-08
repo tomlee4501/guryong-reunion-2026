@@ -51,11 +51,14 @@ function doPost(e){
       if(last>1){
         var rows=sheet.getRange(2,2,last-1,5).getDisplayValues();
         for(var i=0;i<rows.length;i++){
-          if(rows[i][1]===phone||rows[i][4]===requestId)return json_({ok:true,duplicate:true});
+          var existingPhone=String(rows[i][1]||'').replace(/\D/g,'');
+          if(existingPhone===phone||('0'+existingPhone)===phone||rows[i][4]===requestId)
+            return json_({ok:true,duplicate:true});
         }
       }
       var timestamp=Utilities.formatDate(new Date(),ZONE,'yyyy-MM-dd HH:mm:ss');
-      sheet.appendRow([timestamp,name,phone,'N','',requestId]);
+      // Force text so the initial zero of Korean mobile numbers is preserved.
+      sheet.appendRow([timestamp,name,"'"+phone,'N','',requestId]);
       return json_({ok:true,saved:true});
     }finally{lock.releaseLock()}
   }catch(err){console.error('RSVP server error');return json_({ok:false,message:'server error'})}

@@ -26,7 +26,7 @@ React Bits Pixel Snow는 `scripts/install-react-bits.mjs`로 [공식 React Bits 
 2. Actions 탭의 **Deploy Guryong Reunion to GitHub Pages**가 완료될 때까지 기다리고 결과를 확인합니다.
 3. 페이지가 뜨는지, 모바일 레이아웃과 Pixel Snow가 정상인지 확인합니다.
 
-## Google Sheets 신청 접수 (웹 앱 연결 검사 중)
+## Google Sheets 신청 접수 (문자열 연락처 수정 배포 대기)
 
 **보안:** 실제 이름과 연락처는 GitHub에 올리지 않습니다. Google Sheets 파일은 비공개로 유지하고, 운영진 이메일에만 편집 권한을 부여합니다.
 
@@ -60,3 +60,7 @@ npm test
 - 원래의 문장 전환/페이지네이션 UI는 제거하였습니다.
 
 Google Apps Script 웹앱 주소는 공개 신청 API이며 GitHub Pages 정적 번들에 포함됩니다. 비밀키는 넣지 않습니다. 허가 없는 대량 등록이나 테스트 요청은 금지되며, 연동 테스트용 가상 신청 행은 확인 후 삭제합니다.
+
+### 2026-11-08 검증 참고
+
+Apps Script 실제 E2E 테스트에서는 Google Sheets가 숫자처럼 보이는 연락처의 첫 0을 제거하는 동작을 확인했습니다. 수정된 `apps-script/Code.gs`는 전화번호를 텍스트로 기록하도록 조정했습니다. 스크립트를 다시 배포하고 휴대전화 번호가 온전히 저장되는지 재검증하기 전까지 `VITE_RSVP_ENDPOINT`는 의도적으로 비워 실제 신청 버튼을 막습니다. 일회성 테스트 스텝은 GitHub Actions에서 제거했습니다.
