@@ -12,7 +12,7 @@ test('Guryong factual info, account and separate GitHub Pages base',()=>{
 test('RSVP disabled before endpoint configuration',()=>{
   assert.match(read('src/lib/registration.ts'),/registrationEnabled/);
   assert.match(read('src/lib/registration.ts'),/mode:'no-cors'/);
-  assert.match(read('src/App.tsx'),/신청 접수 준비 중/);
+  assert.doesNotMatch(read('src/App.tsx'),/신청 접수 준비 중/);
 });
 test('Apps Script validation, duplicate suppression and default N',()=>{
   const data=[['신청일시','이름','연락처','회비 납부(Y/N)','메모','요청 ID']];
@@ -61,4 +61,13 @@ test('RSVP stays disabled until corrected Apps Script is deployed and verified',
   assert.match(workflow,/VITE_RSVP_ENDPOINT: ''/);
   assert.doesNotMatch(workflow,/--post-test/);
   assert.match(script,/"'"\+phone/);
+});
+
+test('Confirmed venue opens exact Naver Place without changing event date or payment',()=>{
+ const c=read('src/lib/constants.ts'),app=read('src/App.tsx');
+ assert.match(c,/언디파인 파티룸 강남본점/);
+ assert.match(c,/서울 강남구 강남대로96길 18, 4층/);
+ assert.match(c,/2052323320/);
+ assert.match(app,/rel="noopener noreferrer"/);
+ assert.match(app,/네이버 지도에서 보기/);
 });

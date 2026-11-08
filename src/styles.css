@@ -22,3 +22,13 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
 
 @media(min-width:761px) and (max-width:1200px){.loop-section{height:225px}}
+
+/* Confirmed reunion venue; accessible mobile and desktop Naver Place links. */
+.venue-link{color:#efffd3;font-weight:800;text-decoration:underline;text-decoration-color:#a4ce57;text-underline-offset:5px;text-decoration-thickness:1px;overflow-wrap:anywhere;transition:color .2s}
+.venue-link:hover,.venue-link:focus-visible{color:var(--lime)}
+.venue-detail{display:flex;flex-direction:column;align-items:flex-start;gap:9px;min-width:0;padding-block:19px}
+.venue-address{font-size:14px;font-weight:400;color:#bfc4cf;line-height:1.6}
+.venue-map-link{display:inline-flex;gap:5px;align-items:center;padding:6px 0;color:var(--lime);font-size:14px;font-weight:700;text-decoration:none}
+.venue-map-link:hover,.venue-map-link:focus-visible{text-decoration:underline;text-underline-offset:4px}
+.date-info .venue-link{font-size:17px;line-height:1.5}
+@media(max-width:760px){.venue-detail{gap:7px;padding-block:19px}.venue-address,.venue-map-link{font-size:13px}.date-info .venue-link{font-size:15px}}

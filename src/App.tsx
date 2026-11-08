@@ -15,7 +15,7 @@ function DateCard(){return <aside className="date-card" aria-label="동창회 �
   <div className="date-label">SAVE THE DATE</div>
   <div className="date-large">12.26</div><div className="date-time">SATURDAY / 6 PM</div>
   <div className="date-rule"></div>
-  <div className="date-info"><span>VENUE</span><strong>{EVENT.venue}</strong><span>FEE</span><strong>{fee}</strong></div>
+  <div className="date-info"><span>VENUE</span><a className="venue-link" href={EVENT.venueUrl} target="_blank" rel="noopener noreferrer">{EVENT.venue} ↗</a><span>FEE</span><strong>{fee}</strong></div>
 </aside>}
 function BankInfo({compact=false}:{compact?:boolean}){
   const [copied,setCopied]=useState(false);const timer=useRef<ReturnType<typeof setTimeout>|null>(null);
@@ -54,7 +54,6 @@ function Registration(){
   return <section className="rsvp container" id="rsvp" aria-labelledby="rsvp-heading">
     <span className="section-id">03 / RSVP</span><h2 id="rsvp-heading">참석 신청</h2>
     <p className="intro">이름과 연락처만 남기면 됩니다.</p>
-    {!registrationEnabled&&<div className="prelaunch-note" role="status"><span className="prelaunch-dot"></span><div><strong>신청 접수 준비 중</strong><span>Google Sheets 연동을 마친 뒤 접수를 시작합니다.</span></div></div>}
     <form onSubmit={submit} noValidate>
       <div className="form-grid">
         <label className="field">이름<input name="name" autoComplete="name" maxLength={40} placeholder="이름을 입력해 주세요" value={name} onChange={e=>setName(e.target.value)} required/></label>
@@ -64,7 +63,7 @@ function Registration(){
       <label className="privacy-check"><input type="checkbox" checked={consent} onChange={e=>setConsent(e.target.checked)}/><span>개인정보 수집·이용에 동의합니다 (필수)</span></label>
       <p className="privacy-copy">수집 항목: 이름·연락처 · 목적: 동창회 참석자 확인 및 행사 안내 · 보유 기간: 행사 종료 후 30일 이내 삭제 · 동의 거부 가능(거부 시 신청 불가)</p>
       {error&&<p className="error" role="alert">{error}</p>}
-      <button className="submit-btn" type="submit" disabled={!registrationEnabled||state==='sending'}>{state==='sending'?'전송 중…':registrationEnabled?'참석 신청 보내기 ↗':'신청 접수 준비 중'}</button>
+      <button className="submit-btn" type="submit" disabled={!registrationEnabled||state==='sending'}>{state==='sending'?'전송 중…':registrationEnabled?'참석 신청 보내기 ↗':'신청 기능 점검 중'}</button>
       <p className="fine">※ 회비 납부는 운영진이 별도로 확인합니다. 참석자 연락처는 공개하지 않습니다.</p>
     </form>
   </section>;
@@ -82,7 +81,7 @@ export default function App(){
         <div className="hero container">
           <div className="hero-left"><span className="pill">WINTER REUNION / 2026</span>
             <h1>구룡중 <span>동창회</span></h1>
-            <p className="hero-caption">2026년 12월 26일 (토)<br/>오후 6시 · 장소 추후 공지</p>
+            <p className="hero-caption">2026년 12월 26일 (토)<br/>오후 6시 · 강남역</p>
             <div className="hero-actions"><JumpButton className="cta">참석 신청하기 <span>↗</span></JumpButton><span className="scroll-text">SCROLL FOR DETAILS</span></div>
           </div>
           <DateCard/>
@@ -90,7 +89,7 @@ export default function App(){
         <TextLoop/>
         <div className="details container">
           <section className="details-content"><span className="section-id">01 / THE DETAILS</span><h2>행사 안내</h2>
-            <dl className="detail-rows"><div><dt>일시</dt><dd>{EVENT.dateLabel} · {EVENT.timeLabel}</dd></div><div><dt>장소</dt><dd>{EVENT.venue}</dd></div><div><dt>회비</dt><dd>{fee}</dd></div></dl>
+            <dl className="detail-rows"><div><dt>일시</dt><dd>{EVENT.dateLabel} · {EVENT.timeLabel}</dd></div><div><dt>장소</dt><dd className="venue-detail"><a href={EVENT.venueUrl} target="_blank" rel="noopener noreferrer" className="venue-link">{EVENT.venue} ↗</a><span className="venue-address">{EVENT.venueAddress}</span><a className="venue-map-link" href={EVENT.venueUrl} target="_blank" rel="noopener noreferrer">네이버 지도에서 보기 <span aria-hidden="true">↗</span></a></dd></div><div><dt>회비</dt><dd>{fee}</dd></div></dl>
           </section>
           <BankInfo/>
         </div>
