@@ -32,16 +32,16 @@ export default function TextLoop() {
             direction="forward"
             speed={70}
             separator="✦"
-            curviness={86}
-            fontSize={50}
+            curviness={24}
+            fontSize={32}
             fontWeight={800}
             letterSpacing={0}
             uppercase={false}
             ribbon
             ribbonColor="#DFFF7A"
-            ribbonWidth={103}
+            ribbonWidth={52}
             color="#15171E"
-            edgeFade={0.09}
+            edgeFade={0.18}
             pauseOnHover
             cross={false}
             draggable={false}

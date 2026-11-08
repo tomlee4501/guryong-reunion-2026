@@ -25,3 +25,15 @@ test('Apps Script validation, duplicate suppression and default N',()=>{
   assert.equal(post({...base,requestId:'b7a7a7a7-9999-4999-8999-a7a7a7a7a7a7'}).duplicate,true);assert.equal(data.length,2);
   assert.equal(post({...base,name:'=IMPORTXML("evil")',phone:'01099887766'}).ok,false);
 });
+
+test('React Bits ribbon fits the section and preserves global Pixel Snow',()=>{
+  const css=read('src/styles.css'),loop=read('src/components/TextLoop.tsx');
+  assert.match(css,/\.loop-section\{[^}]*background:transparent/);
+  assert.match(css,/\.loop-ribbon-stage \.text-loop-svg\{[^}]*clamp\(960px,100%,1800px\)/);
+  assert.match(css,/mask-image:linear-gradient/);
+  assert.match(css,/\.loop-section\{height:190px\}/);
+  assert.match(loop,/curviness=\{24\}/);
+  assert.match(loop,/ribbonWidth=\{52\}/);
+  assert.match(loop,/fontSize=\{32\}/);
+  assert.match(loop,/text=\{LOOP_LINES\.join/);
+});
