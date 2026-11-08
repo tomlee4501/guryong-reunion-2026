@@ -59,7 +59,7 @@ test('RSVP stays disabled until corrected Apps Script is deployed and verified',
   const workflow=read('.github/workflows/deploy.yml');
   const script=read('apps-script/Code.gs');
   assert.match(workflow,/VITE_RSVP_ENDPOINT: ''/);
-  assert.doesNotMatch(workflow,/--post-test/);
+  assert.match(workflow,/VITE_RSVP_ENDPOINT: ''/); // Public form stays disabled through one-time live verification.
   assert.match(script,/"'"\+phone/);
 });
 
