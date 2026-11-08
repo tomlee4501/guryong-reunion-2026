@@ -27,11 +27,6 @@ jobs:
         run: npm run setup:reactbits
       - name: Run tests
         run: npm test
-      - name: One-time live Google Sheets verification (synthetic only)
-        continue-on-error: true
-        env:
-          VITE_RSVP_ENDPOINT: https://script.google.com/macros/s/AKfycbxr7kxil-xBDevdJXHGSiFC9fXLMP-m3uB09PbuFBkxhaUuQJbGywyWtC5dqafGMCyL/exec
-        run: node scripts/verify-apps-script.mjs --post-test
       - name: Build
         run: GITHUB_PAGES=true npm run build
         env:
