@@ -31,11 +31,11 @@ test('React Bits ribbon fits the section and preserves global Pixel Snow',()=>{
   assert.match(css,/\.loop-section\{[^}]*background:transparent/);
   assert.match(css,/\.loop-ribbon-stage \.text-loop-svg\{[^}]*clamp\(960px,100%,1800px\)/);
   assert.match(css,/mask-image:linear-gradient/);
-  assert.match(css,/\.loop-section\{height:190px\}/);
+  assert.match(css,/\.loop-section\{height:170px\}/);
   assert.match(loop,/curviness=\{24\}/);
   assert.match(loop,/ribbonWidth=\{52\}/);
   assert.match(loop,/fontSize=\{32\}/);
-  assert.match(loop,/text=\{LOOP_LINES\.join/);
+  assert.match(loop,/text=\{LOOP_LINES\[0\]\}/);
 });
 
 test('Mobile ribbon adjusts glyph baseline, not the ribbon or desktop canvas',()=>{
@@ -99,5 +99,19 @@ test('Mobile wave uses safe repeat spacing and direct SVG text baseline',()=>{
  assert.doesNotMatch(vendor,/<tspan dy=/);
  assert.match(wrapper,/mobileSafeSpacing=\{isMobile\}/);
  assert.match(labels,/구룡중 22기 동창회/);
- assert.match(labels,/2026년 12월 26일 오후 6시/);
+ assert.doesNotMatch(labels,/2026년 12월 26일 오후 6시/);
+ assert.match(labels,/dateLabel: '2026년 12월 26일 \(토\)'/);
+});
+
+test('Reunion loop repeats only one short label and mobile spacing is compact',()=>{
+  const labels=read('src/lib/constants.ts'),loop=read('src/components/TextLoop.tsx'),css=read('src/styles.css');
+  assert.match(labels,/LOOP_LINES = \['구룡중 22기 동창회'\] as const/);
+  assert.doesNotMatch(labels,/LOOP_LINES = \[[^\]]*2026년/);
+  assert.match(loop,/text=\{LOOP_LINES\[0\]\}/);
+  assert.doesNotMatch(loop,/LOOP_LINES\[1\]/);
+  assert.doesNotMatch(loop,/LOOP_LINES\.join/);
+  assert.match(loop,/separator="✦"/);
+  assert.match(css,/\.loop-section\{height:170px\}/);
+  assert.match(css,/\.hero\{min-height:0;display:block;padding-top:50px;padding-bottom:66px\}/);
+  assert.match(css,/padding-top:58px;padding-bottom:65px/);
 });

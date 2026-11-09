@@ -11,4 +11,4 @@ export const EVENT = Object.freeze({
   accountNumber: '937702-00-089624',
   accountHolder: '유승배'
 });
-export const LOOP_LINES = ['구룡중 22기 동창회', '2026년 12월 26일 오후 6시'] as const;
+export const LOOP_LINES = ['구룡중 22기 동창회'] as const;

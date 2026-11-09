@@ -30,15 +30,15 @@ export default function TextLoop() {
   }, []);
 
   return (
-    <section className="loop-section" aria-label="구룡중 22기 동창회와 행사 일시">
+    <section className="loop-section" aria-label="구룡중 22기 동창회 리본 애니메이션">
       <div className="loop-ribbon-stage">
         {reducedMotion ? (
           <div className="loop-ribbon-fallback">
-            {LOOP_LINES[0]} <span aria-hidden="true">✦</span> {LOOP_LINES[1]}
+            {LOOP_LINES[0]}
           </div>
         ) : (
           <ReactBitsTextLoop
-            text={LOOP_LINES.join('  ✦  ')}
+            text={LOOP_LINES[0]}
             shape="wave"
             direction="forward"
             speed={70}
@@ -62,7 +62,7 @@ export default function TextLoop() {
           />
         )}
       </div>
-      <span className="sr-only">{LOOP_LINES.join(' · ')}</span>
+      <span className="sr-only">{LOOP_LINES[0]}</span>
     </section>
   );
 }
