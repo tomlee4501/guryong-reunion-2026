@@ -1,6 +1,6 @@
 # Guryong Reunion 2026
 
-2026 구룡중학교 동창회 신청 사이트. **Invited 앱과 저장소, Supabase, Vercel 또는 도메인을 공유하지 않는 완전히 별도의 프로젝트**입니다.
+2026 구룡중 22기 동창회 신청 사이트. **Invited 앱과 저장소, Supabase, Vercel 또는 도메인을 공유하지 않는 완전히 별도의 프로젝트**입니다.
 
 - Figma: https://www.figma.com/design/GPPvySOhB3JL03rt1tWawv?node-id=10-2
 - 일정: 2026년 12월 26일 토요일 오후 6시 · 장소 추후 공지
@@ -18,7 +18,7 @@ npm test
 npm run build
 ```
 
-React Bits Pixel Snow는 `scripts/install-react-bits.mjs`로 [공식 React Bits 저장소](https://github.com/DavidHDev/react-bits)의 고정된 커밋에서 설치합니다. GitHub Actions는 배포 빌드 전에 해당 설치를 실행합니다. 로컬 백업 컴포넌트는 공식 컴포넌트가 설치되지 않았을 때를 위한 것이며, React Bits 라이선스(MIT + Commons Clause)를 준수해야 합니다. Text Loop는 React Bits의 공식 SVG 곡선 리본 마키 컴포넌트를 `src/components/reactbits/TextLoop.tsx`에 고정 커밋 `4dc7b5b` 기준으로 포함한 것이며, `src/components/TextLoop.tsx`는 행사 정보 및 사이트 팔레트를 적용합니다. 문구는 ‘구룡중학교 동창회’와 ‘2026년 12월 26일 오후 6시’ 두 개만 계속 반복합니다. 모션 축소 설정에서는 정적 행사 정보를 표시합니다.
+React Bits Pixel Snow는 `scripts/install-react-bits.mjs`로 [공식 React Bits 저장소](https://github.com/DavidHDev/react-bits)의 고정된 커밋에서 설치합니다. GitHub Actions는 배포 빌드 전에 해당 설치를 실행합니다. 로컬 백업 컴포넌트는 공식 컴포넌트가 설치되지 않았을 때를 위한 것이며, React Bits 라이선스(MIT + Commons Clause)를 준수해야 합니다. Text Loop는 React Bits의 공식 SVG 곡선 리본 마키 컴포넌트를 `src/components/reactbits/TextLoop.tsx`에 고정 커밋 `4dc7b5b` 기준으로 포함한 것이며, `src/components/TextLoop.tsx`는 행사 정보 및 사이트 팔레트를 적용합니다. 문구는 ‘구룡중 22기 동창회’와 ‘2026년 12월 26일 오후 6시’ 두 개만 계속 반복합니다. 모션 축소 설정에서는 정적 행사 정보를 표시합니다.
 
 ## GitHub Pages 배포
 

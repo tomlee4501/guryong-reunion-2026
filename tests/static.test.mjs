@@ -73,3 +73,16 @@ test('Confirmed venue opens exact Naver Place without changing event date or pay
  assert.match(app,/rel="noopener noreferrer"/);
  assert.match(app,/네이버 지도에서 보기/);
 });
+
+test('22nd cohort branding, requested message and updated form copy',()=>{
+  const app=read('src/App.tsx'),data=read('src/lib/constants.ts'),loop=read('src/components/TextLoop.tsx'),html=read('index.html'),css=read('src/styles.css'),og=read('public/og-preview.svg');
+  assert.match(data,/구룡중 22기 동창회/);
+  assert.match(loop,/구룡중 22기 동창회/);
+  assert.match(app,/22기 동창회/);
+  for(const exact of ["22기 구룡중학교 졸업생 여러분~ 다들 잘 지내고 있길 바래 !","어느덧 세월이 흘러 본격적인 30대를 앞두고 있네. 10대와 20대를 지나오며 쌓아온 수많은 경험들이 이제는 각자의 삶을 만들어가는 소중한 자산이 되어가고 있는 것 같아.","그런 의미에서 하루쯤은 바쁜 일상도, 각자의 고민도 잠시 내려놓고 우리의 10대를 추억해 보는 건 어떨까?","그때 그 시절로 돌아가 별것 아닌 이야기에도 웃고 떠들며, 오랜만에 실컷 수다 한번 떨어보자~"]) assert.ok(app.includes(exact),'Missing an invitation paragraph');
+  assert.match(app,/원활한 동창회 준비를 위해 회비는 아래 계좌로 입금 부탁해!/);
+  assert.match(app,/참석 신청은 이름과 연락처만 남겨주면 돼/);
+  assert.match(html,/<title>구룡중 22기 동창회/);
+  assert.match(og,/22기 동창회/);
+  assert.match(css,/\.hero-message/);
+});

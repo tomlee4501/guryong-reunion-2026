@@ -24,7 +24,7 @@ function BankInfo({compact=false}:{compact?:boolean}){
   return <article className={'bank-card'+(compact?' compact-bank':'')}>
     {!compact&&<span className="section-id">02 / BANK TRANSFER</span>}
     <h3>{compact?'회비 입금':'회비 입금 안내'}</h3>
-    {!compact&&<p className="bank-intro">회비는 아래 계좌로 입금해 주세요.</p>}
+    {!compact&&<p className="bank-intro">원활한 동창회 준비를 위해 회비는 아래 계좌로 입금 부탁해!</p>}
     <div className="bank-inner"><span className="bank-name">{EVENT.bank}</span><strong className="bank-account">{EVENT.accountNumber}</strong><span className="bank-owner">예금주&nbsp; {EVENT.accountHolder}</span></div>
     <button className="copy-button" type="button" onClick={copy}>{copied?'복사 완료 ✓':'계좌번호 복사 ↗'}</button>
   </article>
@@ -47,13 +47,13 @@ function Registration(){
   };
   if(state==='sent')return <section className="sent-section" id="rsvp" aria-live="polite">
     <div className="sent-tick">✓</div><span className="section-id">RSVP REQUEST SENT</span><h2>신청 정보가 전송되었습니다.</h2>
-    <p>운영진이 신청 명단을 확인하기 전까지 접수가 확정된 것은 아닙니다.<br/>회비는 아래 계좌로 입금해 주세요.</p>
+    <p>운영진이 신청 명단을 확인하기 전까지 접수가 확정된 것은 아닙니다.<br/>원활한 동창회 준비를 위해 회비는 아래 계좌로 입금 부탁해!</p>
     <BankInfo compact/><p className="fine">입금 여부는 운영진이 별도로 확인합니다.</p>
     <button className="return-btn" type="button" onClick={()=>{setState('idle');setName('');setPhone('');setConsent(false);request.current=''}}>새로 신청하기 ↗</button>
   </section>;
   return <section className="rsvp container" id="rsvp" aria-labelledby="rsvp-heading">
     <span className="section-id">03 / RSVP</span><h2 id="rsvp-heading">참석 신청</h2>
-    <p className="intro">이름과 연락처만 남기면 됩니다.</p>
+    <p className="intro">참석 신청은 이름과 연락처만 남겨주면 돼.</p>
     <form onSubmit={submit} noValidate>
       <div className="form-grid">
         <label className="field">이름<input name="name" autoComplete="name" maxLength={40} placeholder="이름을 입력해 주세요" value={name} onChange={e=>setName(e.target.value)} required/></label>
@@ -74,13 +74,19 @@ export default function App(){
     <SnowBackground/>
     <div className="site">
       <header className="header container">
-        <a href="#top" className="brand"><span className="brand-logo"><img src={logo} alt="구룡중학교 로고"/></span><span className="brand-copy"><strong>GURYONG / REUNION 2026</strong><small>구룡중학교 동창회</small></span></a>
+        <a href="#top" className="brand"><span className="brand-logo"><img src={logo} alt="구룡중학교 로고"/></span><span className="brand-copy"><strong>GURYONG 22 / REUNION</strong><small>구룡중 22기 동창회</small></span></a>
         <span className="header-date">SATURDAY · 26 DEC · 2026</span>
       </header>
       <main id="top">
         <div className="hero container">
           <div className="hero-left"><span className="pill">WINTER REUNION / 2026</span>
-            <h1>구룡중 <span>동창회</span></h1>
+            <h1>구룡중 <span>22기 동창회</span></h1>
+            <div className="hero-message" aria-label="22기 동창회 초대글">
+              <p>22기 구룡중학교 졸업생 여러분~ 다들 잘 지내고 있길 바래 !</p>
+              <p>어느덧 세월이 흘러 본격적인 30대를 앞두고 있네. 10대와 20대를 지나오며 쌓아온 수많은 경험들이 이제는 각자의 삶을 만들어가는 소중한 자산이 되어가고 있는 것 같아.</p>
+              <p>그런 의미에서 하루쯤은 바쁜 일상도, 각자의 고민도 잠시 내려놓고 우리의 10대를 추억해 보는 건 어떨까?</p>
+              <p>그때 그 시절로 돌아가 별것 아닌 이야기에도 웃고 떠들며, 오랜만에 실컷 수다 한번 떨어보자~</p>
+            </div>
             <p className="hero-caption">2026년 12월 26일 (토)<br/>오후 6시 · 강남역</p>
             <div className="hero-actions"><JumpButton className="cta">참석 신청하기 <span>↗</span></JumpButton><span className="scroll-text">SCROLL FOR DETAILS</span></div>
           </div>
@@ -95,7 +101,7 @@ export default function App(){
         </div>
         <Registration/>
       </main>
-      <footer className="footer container"><strong>GURYONG REUNION 2026</strong><span>2026.12.26 / SATURDAY / 18:00</span></footer>
+      <footer className="footer container"><strong>GURYONG 22ND REUNION 2026</strong><span>2026.12.26 / SATURDAY / 18:00</span></footer>
     </div>
   </>;
 }

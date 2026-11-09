@@ -30,7 +30,7 @@ export default function TextLoop() {
   }, []);
 
   return (
-    <section className="loop-section" aria-label="구룡중학교 동창회와 행사 일시">
+    <section className="loop-section" aria-label="구룡중 22기 동창회와 행사 일시">
       <div className="loop-ribbon-stage">
         {reducedMotion ? (
           <div className="loop-ribbon-fallback">
