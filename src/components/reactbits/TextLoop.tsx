@@ -21,6 +21,8 @@ export interface TextLoopProps {
   fontWeight?: number | string;
   /** Additional normal offset for text glyphs along the SVG path (in SVG units). */
   textBaselineOffset?: number;
+  /** Keep naturally spaced repeat segments on narrow mobile SVG paths. */
+  mobileSafeSpacing?: boolean;
   letterSpacing?: number;
   uppercase?: boolean;
   color?: string;
@@ -167,6 +169,7 @@ const TextLoop = ({
   fontSize = 46,
   fontWeight = 800,
   textBaselineOffset = 0,
+  mobileSafeSpacing = false,
   letterSpacing = 2,
   uppercase = true,
   color,
@@ -257,7 +260,10 @@ const TextLoop = ({
       }
       if (!length) return;
 
-      const repsFor = (total: number) => (unitWidth > 0 ? Math.max(1, Math.round(total / unitWidth)) : 1);
+      // On mobile avoid rounding up and squeezing long Korean labels onto one wave;
+      // iOS Safari otherwise paints neighboring text segments over each other.
+      const repsFor = (total: number) =>
+        unitWidth > 0 ? Math.max(1, (mobileSafeSpacing ? Math.floor : Math.round)(total / unitWidth)) : 1;
       const next = { length, reps: repsFor(length), crossLength, crossReps: repsFor(crossLength) };
       setMetrics(prev =>
         prev.length === next.length &&
@@ -277,7 +283,7 @@ const TextLoop = ({
     return () => {
       cancelled = true;
     };
-  }, [d, crossD, unit, fontSize, fontWeight, letterSpacing]);
+  }, [d, crossD, unit, fontSize, fontWeight, letterSpacing, mobileSafeSpacing]);
 
   useIsomorphicLayoutEffect(() => {
     const { length, crossLength } = metrics;
@@ -582,6 +588,7 @@ const TextLoop = ({
                 className="text-loop-text"
                 style={textStyle}
                 {...crossPaint}
+                dy={textBaselineOffset}
                 dominantBaseline="central"
                 aria-hidden="true"
                 textLength={crossFit}
@@ -596,6 +603,7 @@ const TextLoop = ({
                 className="text-loop-text"
                 style={textStyle}
                 {...crossPaint}
+                dy={textBaselineOffset}
                 dominantBaseline="central"
                 aria-hidden="true"
                 textLength={crossFit}
@@ -642,13 +650,14 @@ const TextLoop = ({
               className="text-loop-text"
               style={textStyle}
               {...mainPaint}
+              dy={textBaselineOffset}
               dominantBaseline="central"
               aria-hidden="true"
               textLength={fitLength}
               lengthAdjust="spacing"
             >
               <textPath ref={headRef} href={`#${pathId}`} startOffset={0}>
-                <tspan dy={textBaselineOffset}>{loopText}</tspan>
+                {loopText}
               </textPath>
             </text>
 
@@ -656,13 +665,14 @@ const TextLoop = ({
               className="text-loop-text"
               style={textStyle}
               {...mainPaint}
+              dy={textBaselineOffset}
               dominantBaseline="central"
               aria-hidden="true"
               textLength={fitLength}
               lengthAdjust="spacing"
             >
               <textPath ref={tailRef} href={`#${pathId}`} startOffset={0}>
-                <tspan dy={textBaselineOffset}>{loopText}</tspan>
+                {loopText}
               </textPath>
             </text>
           </g>

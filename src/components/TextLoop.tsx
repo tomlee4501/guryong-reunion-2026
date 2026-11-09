@@ -47,6 +47,7 @@ export default function TextLoop() {
             fontSize={32}
             fontWeight={800}
             textBaselineOffset={isMobile ? 11 : 0}
+            mobileSafeSpacing={isMobile}
             letterSpacing={0}
             uppercase={false}
             ribbon

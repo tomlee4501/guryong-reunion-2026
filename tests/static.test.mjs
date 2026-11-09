@@ -42,7 +42,10 @@ test('Mobile ribbon adjusts glyph baseline, not the ribbon or desktop canvas',()
   const vendor=read('src/components/reactbits/TextLoop.tsx');
   const wrapper=read('src/components/TextLoop.tsx');
   assert.match(vendor,/textBaselineOffset\?: number/);
-  assert.match(vendor,/<tspan dy=\{textBaselineOffset\}>\{loopText\}<\/tspan>/);
+  assert.match(vendor,/dy=\{textBaselineOffset\}/);
+  assert.doesNotMatch(vendor,/<tspan dy=\{textBaselineOffset\}>/);
+  assert.match(vendor,/mobileSafeSpacing \? Math\.floor : Math\.round/);
+  assert.match(wrapper,/mobileSafeSpacing=\{isMobile\}/);
   assert.match(wrapper,/textBaselineOffset=\{isMobile \? 11 : 0\}/);
   assert.match(wrapper,/max-width: 760px/);
   assert.match(wrapper,/shape="wave"/);
@@ -85,4 +88,16 @@ test('22nd cohort branding, requested message and updated form copy',()=>{
   assert.match(html,/<title>구룡중 22기 동창회/);
   assert.match(og,/22기 동창회/);
   assert.match(css,/\.hero-message/);
+});
+
+test('Mobile wave uses safe repeat spacing and direct SVG text baseline',()=>{
+ const vendor=read('src/components/reactbits/TextLoop.tsx');
+ const wrapper=read('src/components/TextLoop.tsx');
+ const labels=read('src/lib/constants.ts');
+ assert.match(vendor,/mobileSafeSpacing \? Math\.floor : Math\.round/);
+ assert.match(vendor,/\[d, crossD, unit, fontSize, fontWeight, letterSpacing, mobileSafeSpacing\]/);
+ assert.doesNotMatch(vendor,/<tspan dy=/);
+ assert.match(wrapper,/mobileSafeSpacing=\{isMobile\}/);
+ assert.match(labels,/구룡중 22기 동창회/);
+ assert.match(labels,/2026년 12월 26일 오후 6시/);
 });
